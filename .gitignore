@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local data and safety snapshots; obtain the dataset separately for training.
+creditcard.csv
+backups/
+tmp/
+
+# Source synopsis PDFs may contain personal or academic identifiers.
+Synopsis_Report*.pdf

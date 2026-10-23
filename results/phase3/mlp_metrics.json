@@ -1,0 +1,92 @@
+{
+  "model": "mlp",
+  "seed": 42,
+  "split": {
+    "train": 0.65,
+    "validation": 0.15,
+    "test": 0.2
+  },
+  "split_indices_file": "data_split_indices.npz",
+  "dataset_file": "creditcard.csv",
+  "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.1.0",
+      "scikit-learn": "1.9.1",
+      "torch": "2.14.1",
+      "Flask": "3.1.3",
+      "web3": "7.16.0"
+    }
+  },
+  "threshold_selection": "maximize validation F1",
+  "threshold": 0.979800820350647,
+  "features": [
+    "Time",
+    "V1",
+    "V2",
+    "V3",
+    "V4",
+    "V5",
+    "V6",
+    "V7",
+    "V8",
+    "V9",
+    "V10",
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16",
+    "V17",
+    "V18",
+    "V19",
+    "V20",
+    "V21",
+    "V22",
+    "V23",
+    "V24",
+    "V25",
+    "V26",
+    "V27",
+    "V28",
+    "Amount"
+  ],
+  "model_path": "artifacts\\phase3\\dl_model.pth",
+  "scaler_path": "artifacts\\phase3\\dl_scaler.pkl",
+  "test_metrics": {
+    "threshold": 0.979800820350647,
+    "support": 56962,
+    "fraud_support": 98,
+    "accuracy": 0.9991748885221726,
+    "precision": 0.7217391304347827,
+    "recall": 0.8469387755102041,
+    "f1": 0.7793427230046949,
+    "pr_auc": 0.6745132383158465,
+    "roc_auc": 0.9745884021166148,
+    "confusion_matrix": [
+      [
+        56832,
+        32
+      ],
+      [
+        15,
+        83
+      ]
+    ]
+  },
+  "training_config": {
+    "loss": "BCEWithLogitsLoss",
+    "positive_class_weight": 577.5125,
+    "optimizer": "Adam",
+    "learning_rate": 0.005,
+    "max_epochs": 50,
+    "epochs_trained": 7,
+    "early_stopping_patience": 5,
+    "best_validation_loss": 0.404601,
+    "batch_size": 1024
+  }
+}

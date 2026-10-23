@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuardChain AI - Deep Learning & Blockchain Fraud Registry</title>
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Styling -->
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- App Shell -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fa-solid fa-shield-halved brand-icon"></i>
+        <div class="brand-text">
+          <h2>GuardChain AI</h2>
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <a href="#" class="menu-item active" onclick="switchTab('dashboard', this)">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('analyzer', this)">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+          <span>Transaction Analyzer</span>
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('simulator', this)">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Live Simulator</span>
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('ledger', this)">
+          <i class="fa-solid fa-cubes"></i>
+          <span>Blockchain Ledger</span>
+        </a>
+        <a href="#" class="menu-item" onclick="switchTab('metrics', this)">
+          <i class="fa-solid fa-square-poll-vertical"></i>
+          <span>Model Metrics</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="network-badge" id="sidebar-net-status">
+          <span class="pulse-dot green"></span>
+          <span>Blockchain Syncing...</span>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="header">
+        <div class="header-title">
+          <h1 id="page-title">Dashboard Overview</h1>
+          <p id="page-subtitle">Real-time deep learning analytics and smart contract registry status.</p>
+        </div>
+        
+        <div class="blockchain-status-panel">
+          <div class="status-pill">
+            <span class="pill-label">Ganache:</span>
+            <span class="pill-value" id="net-status">Checking...</span>
+          </div>
+          <div class="status-pill">
+            <span class="pill-label">Block:</span>
+            <span class="pill-value font-mono" id="net-block">0</span>
+          </div>
+          <div class="status-pill account-pill">
+            <span class="pill-label">Account:</span>
+            <span class="pill-value font-mono" id="net-account" title="Ganache Account Address">0x00...0000</span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Content View Container -->
+      <div class="view-container">
+        
+        <!-- ================= DASHBOARD VIEW ================= -->
+        <section id="tab-dashboard" class="tab-view active">
+          <!-- Summary Cards Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon purple"><i class="fa-solid fa-receipt"></i></div>
+              <div class="stat-info">
+                <h3>Transactions Scanned</h3>
+                <h2 id="stats-total-checked">0</h2>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="stat-info">
+                <h3>Fraud Detected (AI)</h3>
+                <h2 id="stats-fraud-flagged">0</h2>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fa-solid fa-link"></i></div>
+              <div class="stat-info">
+                <h3>Recorded On-Chain</h3>
+                <h2 id="stats-blockchain-logs">0</h2>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-shield-check"></i></div>
+              <div class="stat-info">
+                <h3>System Efficiency</h3>
+                <h2>94.9% <span class="subtext">Recall</span></h2>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dashboard Charts Grid -->
+          <div class="dashboard-grid">
+            <!-- Left Chart: Distribution -->
+            <div class="dashboard-card glass">
+              <div class="card-header">
+                <h3>Fraud Threat Distribution</h3>
+                <p>Scanned transactions categorized by Deep Learning prediction</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="fraudDistributionChart"></canvas>
+              </div>
+            </div>
+            <!-- Right Card: System Status -->
+            <div class="dashboard-card glass">
+              <div class="card-header">
+                <h3>Active Smart Contract Info</h3>
+                <p>Ethereum smart contract deployment details (Ganache Node)</p>
+              </div>
+              <div class="contract-info-list font-mono">
+                <div class="info-row">
+                  <span class="label">Registry Contract:</span>
+                  <span class="value text-accent" id="info-contract-address">Loading...</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Solidity version:</span>
+                  <span class="value">pragma solidity ^0.8.0</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Network Node IP:</span>
+                  <span class="value">http://127.0.0.1:7545</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Consensus Protocol:</span>
+                  <span class="value">Proof of Authority (POA - Dev)</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Gas Limit (Block):</span>
+                  <span class="value">6721975 units</span>
+                </div>
+              </div>
+              <div class="recent-alerts-box">
+                <h4><i class="fa-solid fa-circle-info"></i> Blockchain Verification</h4>
+                <p>Every time a transaction is flagged as fraud by the AI classifier, an automated trigger initiates a smart contract call to the <code>storeTransaction</code> function. The details are recorded immutably on Ganache Ethereum network.</p>
+              </div>
+            </div>
+
+            <!-- Full-Width System Architecture Card -->
+            <div class="dashboard-card glass" style="grid-column: span 2; margin-top: 10px;">
+              <div class="card-header">
+                <h3>GuardChain AI Core System Architecture</h3>
+                <p>Modular pipeline demonstrating end-to-end integration of Deep Learning classification and Blockchain auditing.</p>
+              </div>
+              <div class="architecture-flow">
+                <div class="flow-step">
+                  <div class="flow-icon purple"><i class="fa-solid fa-credit-card"></i></div>
+                  <h4>1. Transaction Intake</h4>
+                  <p>Client submits credit card transaction features (Amount, Time, PCA V1-V28).</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step">
+                  <div class="flow-icon blue"><i class="fa-solid fa-gears"></i></div>
+                  <h4>2. Standardizing Scaler</h4>
+                  <p>Preprocessing normalizes features via fitted StandardScaler weights.</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step">
+                  <div class="flow-icon teal"><i class="fa-solid fa-brain"></i></div>
+                  <h4>3. AI Classifier</h4>
+                  <p>Consensus pipeline evaluates transaction using PyTorch MLP or Random Forest.</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step">
+                  <div class="flow-icon red"><i class="fa-solid fa-shield-halved"></i></div>
+                  <h4>4. Web3.py Solidity Call</h4>
+                  <p>If classified as fraud, automated script initiates Ganache Smart Contract call.</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step">
+                  <div class="flow-icon green"><i class="fa-solid fa-cubes"></i></div>
+                  <h4>5. Immutable Ledger</h4>
+                  <p>Transaction hash generates block mined on Ethereum, ensuring permanent audit trail.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================= TRANSACTION ANALYZER VIEW ================= -->
+        <section id="tab-analyzer" class="tab-view">
+          <div class="analyzer-layout">
+            
+            <!-- Left Pane: Dataset sample selector -->
+            <div class="pane sample-pane glass">
+              <div class="pane-header">
+                <h3>Kaggle Dataset Test Cases</h3>
+                <p>Select a sample from the Credit Card Fraud dataset (stratified: 50% Safe / 50% Fraud cases)</p>
+              </div>
+              
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="sample-search" placeholder="Search by Amount or Index..." onkeyup="filterSamples()">
+              </div>
+              
+              <div class="samples-table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Tx ID</th>
+                      <th>Class</th>
+                      <th>Amount</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="samples-list-body">
+                    <tr>
+                      <td colspan="4" class="text-center">Loading sample transactions from creditcard.csv...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Right Pane: Analysis form & output details -->
+            <div class="pane input-pane glass">
+              <div class="pane-header">
+                <h3>Transaction Details</h3>
+                <p>Verify or modify transaction features before submitting to model</p>
+              </div>
+              
+              <form id="transaction-form" onsubmit="analyzeTransaction(event)">
+                <!-- Model Selection -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="select-model">AI Classification Model</label>
+                    <select id="select-model" class="form-control-select">
+                      <option value="dl">Deep Learning (PyTorch Multi-Layer Perceptron)</option>
+                      <option value="rf">Random Forest Classifier (Tree Ensemble Baseline)</option>
+                      <option value="hybrid">Consensus Hybrid Ensemble (Weighted Vote)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Metadata -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-sender">Sender Name</label>
+                    <input type="text" id="input-sender" value="John Doe" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-receiver">Receiver Name</label>
+                    <input type="text" id="input-receiver" value="Amazon Store" required>
+                  </div>
+                </div>
+                
+                <!-- Main features (Time, Amount) -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-Amount">Amount ($)</label>
+                    <input type="number" step="any" id="input-Amount" value="125.50" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-Time">Time (Seconds since index)</label>
+                    <input type="number" step="any" id="input-Time" value="48200" required>
+                  </div>
+                </div>
+                
+                <!-- Collapsible PCA Features -->
+                <div class="features-accordion">
+                  <button type="button" class="accordion-toggle" onclick="toggleFeaturesAccordion()">
+                    <span><i class="fa-solid fa-sliders"></i> PCA Feature Matrix (V1 - V28)</span>
+                    <i class="fa-solid fa-chevron-down" id="accordion-icon"></i>
+                  </button>
+                  <div class="accordion-content" id="pca-features-grid">
+                    <!-- V1 - V28 inputs injected dynamically -->
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="btn-analyze">
+                  <i class="fa-solid fa-microchip"></i> Run Deep Learning Analysis
+                </button>
+              </form>
+              
+              <!-- Analysis Results Segment -->
+              <div class="analysis-results-card" id="analysis-results-card" style="display: none;">
+                <div class="result-header">
+                  <h4>Analysis Verdict</h4>
+                  <div class="result-badge" id="verdict-badge">SAFE</div>
+                </div>
+                
+                <div class="result-body">
+                  <!-- Probability gauge -->
+                  <div class="gauge-container">
+                    <div class="gauge-label">
+                      <span>Consensus Fraud Probability</span>
+                      <span id="verdict-prob">0.00%</span>
+                    </div>
+                    <div class="gauge-bar-bg">
+                      <div class="gauge-bar-fill" id="verdict-prob-fill"></div>
+                    </div>
+                  </div>
+
+                  <!-- Model details comparators -->
+                  <div class="sim-metrics-box font-mono" style="margin-bottom: 15px; background: rgba(0,0,0,0.1); padding: 8px 12px; border-radius: 8px; font-size: 11px;">
+                    <div class="sim-metric-row"><span>PyTorch MLP Prob:</span><span id="prob-val-dl">0.00%</span></div>
+                    <div class="sim-metric-row"><span>Random Forest Prob:</span><span id="prob-val-rf">0.00%</span></div>
+                  </div>
+                  
+                  <!-- Blockchain logging notification -->
+                  <div class="receipt-box" id="blockchain-receipt" style="display: none;">
+                    <h5><i class="fa-solid fa-link"></i> Blockchain Registry Receipt</h5>
+                    <div class="receipt-row">
+                      <span>Status:</span>
+                      <span class="text-green"><i class="fa-solid fa-check-circle"></i> Logged Immutably</span>
+                    </div>
+                    <div class="receipt-row font-mono">
+                      <span>Tx Hash:</span>
+                      <span class="value text-accent" id="receipt-hash">0x00</span>
+                    </div>
+                    <div class="receipt-row font-mono">
+                      <span>Block:</span>
+                      <span class="value" id="receipt-block">0</span>
+                    </div>
+                    <div class="receipt-row font-mono">
+                      <span>Gas Mined:</span>
+                      <span class="value" id="receipt-gas">0 units</span>
+                    </div>
+                  </div>
+                  <div class="receipt-box simulated-box" id="simulated-receipt" style="display: none;">
+                    <h5><i class="fa-solid fa-triangle-exclamation"></i> Simulated Ledger Mode</h5>
+                      <p>Fraud detected and added to a process-local simulation record. No blockchain transaction was created; this temporary record is lost when the server restarts.</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= LIVE SIMULATION VIEW ================= -->
+        <section id="tab-simulator" class="tab-view">
+          <div class="simulator-layout">
+            <!-- Top Controller Pane -->
+            <div class="simulator-controls glass">
+              <div class="control-header">
+                <h3>Sample Traffic Simulator</h3>
+                <p>Replay perturbed examples from the public dataset through the fraud classifier. This is a simulator, not a live payment feed.</p>
+              </div>
+              <div class="control-actions">
+                <button class="btn btn-primary" id="btn-toggle-sim" onclick="toggleSimulation()">
+                  <i class="fa-solid fa-play"></i> Start Simulation
+                </button>
+                <div class="control-group">
+                  <label for="sim-speed">Interval Speed: <span id="sim-speed-val">2.0s</span></label>
+                  <input type="range" id="sim-speed" min="0.5" max="5.0" step="0.5" value="2.0" oninput="updateSimSpeed(this.value)">
+                </div>
+                <div class="control-group">
+                  <label for="sim-model">Active Classifier</label>
+                  <select id="sim-model" class="form-control-select" onchange="updateSimModel(this.value)">
+                    <option value="dl">Deep Learning (PyTorch MLP)</option>
+                    <option value="rf">Random Forest Classifier</option>
+                    <option value="hybrid">Consensus Hybrid</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Simulation Monitoring Grid -->
+            <div class="simulator-grid" style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; margin-top: 24px;">
+              <!-- Left Pane: Running Graph / Metrics -->
+              <div class="sim-card glass" style="padding: 24px;">
+                <div class="card-header">
+                  <h3>Simulation Distribution</h3>
+                  <p>Live classification categories for this simulation run</p>
+                </div>
+                <div class="sim-chart-container" style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                  <canvas id="simDistributionChart"></canvas>
+                </div>
+                <div class="sim-metrics-box font-mono" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; background-color: rgba(0, 0, 0, 0.2); padding: 16px; border-radius: 8px;">
+                  <div class="sim-metric-row" style="display: flex; justify-content: space-between; font-size: 13px;"><span>Total Sim Scans:</span><span id="sim-stat-total">0</span></div>
+                  <div class="sim-metric-row" style="display: flex; justify-content: space-between; font-size: 13px;"><span>Safe Classifications:</span><span class="text-green" id="sim-stat-safe" style="color: var(--color-safe); font-weight: bold;">0</span></div>
+                  <div class="sim-metric-row" style="display: flex; justify-content: space-between; font-size: 13px;"><span>Fraud Detected:</span><span class="text-red" id="sim-stat-fraud" style="color: var(--color-fraud); font-weight: bold;">0</span></div>
+                  <div class="sim-metric-row" style="display: flex; justify-content: space-between; font-size: 13px;"><span>Confirmed Ganache Writes:</span><span class="text-accent" id="sim-stat-blockchain" style="color: var(--accent-purple); font-weight: bold;">0</span></div>
+                  <div class="sim-metric-row" style="display: flex; justify-content: space-between; font-size: 13px;"><span>Scoring Rate (requests/min):</span><span id="sim-stat-rate" style="font-weight: bold;">0.0</span></div>
+                </div>
+              </div>
+              
+              <!-- Scrolling results for the local sample simulator -->
+              <div class="sim-card glass" style="padding: 24px; display: flex; flex-direction: column;">
+                <div class="card-header">
+                  <h3>Simulated Transaction Feed</h3>
+                  <p>Each card shows model inference time and whether a Ganache write was confirmed.</p>
+                </div>
+                <div class="sim-feed-container" id="sim-feed-list" style="height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--border-glass); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.15);">
+                  <div class="feed-empty-state" style="text-align: center; color: var(--text-muted); margin: auto;">
+                    <i class="fa-solid fa-wave-square pulse-icon" style="font-size: 32px; margin-bottom: 12px;"></i>
+                    <p>Simulator idle. Press "Start Simulation" to stream transaction traffic.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================= BLOCKCHAIN EXPLORER / LEDGER VIEW ================= -->
+        <section id="tab-ledger" class="tab-view">
+          <div class="ledger-header-summary glass">
+            <div class="summary-item">
+              <i class="fa-solid fa-lock text-green"></i>
+              <div>
+                <h4>Contract Status</h4>
+                <p id="ledger-contract-status">Active</p>
+              </div>
+            </div>
+            <div class="summary-item">
+              <i class="fa-solid fa-database text-blue"></i>
+              <div>
+                <h4>Total Logs Mined</h4>
+                <p id="ledger-total-logs">0</p>
+              </div>
+            </div>
+            <div class="summary-item">
+              <button class="btn btn-secondary" onclick="loadBlockchainLogs()"><i class="fa-solid fa-rotate"></i> Refresh Ledger</button>
+            </div>
+          </div>
+          
+          <div class="ledger-table-card glass">
+            <div class="card-header">
+              <h3>Fraud Audit Records</h3>
+              <p>Each record is labelled as a Ganache transaction or a process-local simulation entry. Local simulation entries are temporary and are not on-chain.</p>
+            </div>
+            
+            <div class="ledger-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Record #</th>
+                    <th>Timestamp</th>
+                    <th>Amount ($)</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>AI Verdict</th>
+                    <th>Blockchain Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ledger-list-body">
+                  <tr>
+                    <td colspan="8" class="text-center">Loading contract logs...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================= MODEL PERFORMANCE TAB ================= -->
+        <section id="tab-metrics" class="tab-view">
+          <!-- Comparative Chart Card -->
+          <div class="dashboard-card glass" style="margin-bottom: 32px; padding: 24px;">
+            <div class="card-header">
+              <h3>Model Comparative Analysis</h3>
+              <p>Compare the test-set performance metrics of PyTorch Deep Learning model vs. Random Forest Classifier.</p>
+            </div>
+            <div style="position: relative; height: 300px; width: 100%;">
+              <canvas id="comparisonChart"></canvas>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            
+            <!-- Left Card: PyTorch MLP details -->
+            <div class="metrics-summary-card glass">
+              <div class="card-header">
+                <h3>Neural Network (PyTorch MLP)</h3>
+                <p>Metrics appear here after the revised held-out evaluation has run.</p>
+              </div>
+              
+              <div class="metrics-bars-list">
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Recall (Fraud Detection Rate)</span>
+                    <span id="metric-recall">Pending</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill green" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Accuracy (Overall)</span>
+                    <span id="metric-accuracy">Pending</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill blue" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Precision</span>
+                    <span id="metric-precision">Pending</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill red" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>F1-Score</span>
+                    <span id="metric-f1">Pending</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill purple" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="model-spec-sheet" style="margin-top: 24px;">
+                <h4>PyTorch Model Hyperparameters</h4>
+                <div class="specs-grid font-mono">
+                  <div class="spec-row"><span>Architecture</span><span>Multi-Layer Perceptron (MLP)</span></div>
+                  <div class="spec-row"><span>Layers</span><span>Input(30) -> Linear(64) -> Linear(32) -> Linear(16) -> Output(1)</span></div>
+                  <div class="spec-row"><span>Loss Function</span><span>BCEWithLogitsLoss (Weighted)</span></div>
+                  <div class="spec-row"><span>Optimizer</span><span>Adam (Learning Rate = 0.005)</span></div>
+                  <div class="spec-row"><span>Regularization</span><span>Batch Normalization & Dropout (0.3)</span></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right Card: Random Forest Details -->
+            <div class="metrics-summary-card glass">
+              <div class="card-header">
+                <h3>Random Forest (Tree Ensemble)</h3>
+                <p>Performance metrics evaluated on the stratified test set.</p>
+              </div>
+              
+              <div class="metrics-bars-list">
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Recall (Fraud Detection Rate)</span>
+                    <span id="rf-metric-recall">0.00%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill green" id="rf-fill-recall" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Accuracy (Overall)</span>
+                    <span id="rf-metric-accuracy">0.00%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill blue" id="rf-fill-accuracy" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>Precision</span>
+                    <span id="rf-metric-precision">0.00%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill red" id="rf-fill-precision" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-progress-item">
+                  <div class="progress-labels">
+                    <span>F1-Score</span>
+                    <span id="rf-metric-f1">0.00%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill purple" id="rf-fill-f1" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="model-spec-sheet" style="margin-top: 24px;">
+                <h4>Random Forest Specifications</h4>
+                <div class="specs-grid font-mono">
+                  <div class="spec-row"><span>Classifier Type</span><span>RandomForestClassifier</span></div>
+                  <div class="spec-row"><span>Number of Trees</span><span>50 Estimators</span></div>
+                  <div class="spec-row"><span>Imbalance Handling</span><span>Balanced Class Weights</span></div>
+                  <div class="spec-row"><span>Multiprocessing</span><span>n_jobs = -1 (All Cores)</span></div>
+                  <div class="spec-row"><span>Random State</span><span>42 (Reproducible)</span></div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+      </div>
+      
+    </main>
+  </div>
+
+  <!-- Dispute Manager Modal overlay -->
+  <div id="dispute-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3>Resolve Flagged Dispute</h3>
+        <button class="close-btn" onclick="closeDisputeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Modify transaction status in the smart contract registry. This requires an authorized Web3 Node signature.</p>
+        <input type="hidden" id="dispute-record-index">
+        <div class="form-group" style="margin-top: 16px;">
+          <label for="select-dispute-status">Select New Smart Contract Status</label>
+          <select id="select-dispute-status" class="form-control-select" style="margin-top: 6px;">
+            <option value="0">Flagged (Default AI Alert)</option>
+            <option value="1">Under Review (Investigation Node)</option>
+            <option value="2">Resolved - False Positive (Safe/Return Funds)</option>
+            <option value="3">Confirmed Fraud (Blocked/Account Blacklisted)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 12px;">
+        <button class="btn btn-secondary" onclick="closeDisputeModal()">Cancel</button>
+        <button class="btn btn-primary" style="width: auto;" onclick="submitDisputeStatus()">Submit Web3 Transaction</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "protocol": "same fixed 65/15/20 stratified split; train-only scaling; threshold selected on validation F1",
+  "variants": [
+    {
+      "loss_weighting": "weighted BCE",
+      "positive_weight": 577.5125,
+      "validation_threshold": 0.979800820350647,
+      "test_metrics": {
+        "threshold": 0.979800820350647,
+        "support": 56962,
+        "fraud_support": 98,
+        "accuracy": 0.9991748885221726,
+        "precision": 0.7217391304347827,
+        "recall": 0.8469387755102041,
+        "f1": 0.7793427230046949,
+        "pr_auc": 0.6745132383158465,
+        "roc_auc": 0.9745884021166148,
+        "confusion_matrix": [
+          [
+            56832,
+            32
+          ],
+          [
+            15,
+            83
+          ]
+        ]
+      }
+    },
+    {
+      "loss_weighting": "unweighted BCE",
+      "positive_weight": 1.0,
+      "validation_threshold": 0.517484724521637,
+      "test_metrics": {
+        "threshold": 0.517484724521637,
+        "support": 56962,
+        "fraud_support": 98,
+        "accuracy": 0.9993679997191109,
+        "precision": 0.8163265306122449,
+        "recall": 0.8163265306122449,
+        "f1": 0.8163265306122449,
+        "pr_auc": 0.7444805069324123,
+        "roc_auc": 0.9806024829740563,
+        "confusion_matrix": [
+          [
+            56846,
+            18
+          ],
+          [
+            18,
+            80
+          ]
+        ]
+      }
+    }
+  ]
+}

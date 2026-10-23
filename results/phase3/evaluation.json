@@ -1,0 +1,129 @@
+{
+  "test_support": 56962,
+  "mlp": {
+    "threshold": 0.979800820350647,
+    "support": 56962,
+    "fraud_support": 98,
+    "accuracy": 0.9991748885221726,
+    "precision": 0.7217391304347827,
+    "recall": 0.8469387755102041,
+    "f1": 0.7793427230046949,
+    "pr_auc": 0.6745132383158465,
+    "roc_auc": 0.9745884021166148,
+    "confusion_matrix": [
+      [
+        56832,
+        32
+      ],
+      [
+        15,
+        83
+      ]
+    ]
+  },
+  "random_forest": {
+    "threshold": 0.36,
+    "support": 56962,
+    "fraud_support": 98,
+    "accuracy": 0.9996137776061234,
+    "precision": 0.9418604651162791,
+    "recall": 0.826530612244898,
+    "f1": 0.8804347826086957,
+    "pr_auc": 0.8609266262834029,
+    "roc_auc": 0.9631331253660721,
+    "confusion_matrix": [
+      [
+        56859,
+        5
+      ],
+      [
+        17,
+        81
+      ]
+    ]
+  },
+  "latency_and_memory": {
+    "dl": {
+      "requests": 490,
+      "warmup_requests_discarded": 10,
+      "throughput_requests_per_second": 389.6396878268568,
+      "http_test_client_wall_ms_p50": 2.392349997535348,
+      "http_test_client_wall_ms_p95": 3.7829749606316905,
+      "flask_scoring_ms_p50": 1.822,
+      "flask_scoring_ms_p95": 3.012449999999997,
+      "model_inference_ms_p50": 1.7225000000000001,
+      "model_inference_ms_p95": 2.8715999999999986
+    },
+    "rf": {
+      "requests": 490,
+      "warmup_requests_discarded": 10,
+      "throughput_requests_per_second": 26.202411413717805,
+      "http_test_client_wall_ms_p50": 36.93825000664219,
+      "http_test_client_wall_ms_p95": 50.18141500768252,
+      "flask_scoring_ms_p50": 35.7625,
+      "flask_scoring_ms_p95": 49.1896,
+      "model_inference_ms_p50": 35.6165,
+      "model_inference_ms_p95": 49.026599999999995
+    },
+    "process_rss_bytes_before": 388022272,
+    "process_rss_bytes_after": 446566400,
+    "measurement_note": "Flask test-client benchmark; blockchain writes stubbed; not a network-client or Ganache latency measurement."
+  },
+  "ablation": {
+    "protocol": "same fixed 65/15/20 stratified split; train-only scaling; threshold selected on validation F1",
+    "variants": [
+      {
+        "loss_weighting": "weighted BCE",
+        "positive_weight": 577.5125,
+        "validation_threshold": 0.979800820350647,
+        "test_metrics": {
+          "threshold": 0.979800820350647,
+          "support": 56962,
+          "fraud_support": 98,
+          "accuracy": 0.9991748885221726,
+          "precision": 0.7217391304347827,
+          "recall": 0.8469387755102041,
+          "f1": 0.7793427230046949,
+          "pr_auc": 0.6745132383158465,
+          "roc_auc": 0.9745884021166148,
+          "confusion_matrix": [
+            [
+              56832,
+              32
+            ],
+            [
+              15,
+              83
+            ]
+          ]
+        }
+      },
+      {
+        "loss_weighting": "unweighted BCE",
+        "positive_weight": 1.0,
+        "validation_threshold": 0.517484724521637,
+        "test_metrics": {
+          "threshold": 0.517484724521637,
+          "support": 56962,
+          "fraud_support": 98,
+          "accuracy": 0.9993679997191109,
+          "precision": 0.8163265306122449,
+          "recall": 0.8163265306122449,
+          "f1": 0.8163265306122449,
+          "pr_auc": 0.7444805069324123,
+          "roc_auc": 0.9806024829740563,
+          "confusion_matrix": [
+            [
+              56846,
+              18
+            ],
+            [
+              18,
+              80
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}
